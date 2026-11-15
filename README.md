@@ -1,6 +1,6 @@
 # VIGERITH
 
-**Cross-Domain Security Intelligence & Systems Assurance**  
+**Cross-Domain Security Intelligence and Systems Assurance**  
 *VanceBlackwood Industries*  
 *RAVENSCROFT Engineering Program*
 
@@ -18,12 +18,12 @@ VIGERITH is being developed as an engineering system, not a collection of discon
 
 | Domain | Research direction |
 | --- | --- |
-| Security Telemetry & Detection Engineering | Event modeling, validated ingestion, detection logic, correlation, and false-positive analysis |
-| Malware Intelligence & Reverse Engineering | Controlled static and dynamic analysis, behavioral understanding, and defensive indicators |
-| Threat Intelligence & Forensics | Evidence provenance, source evaluation, incident artifacts, and reproducible analysis |
-| Firmware & Embedded Security | Firmware integrity, secure update research, boot-chain assurance, and embedded attack-surface assessment |
-| FPGA & Trusted Hardware Assurance | Security properties of RTL, programmable logic, hardware interfaces, and hardware-software trust boundaries |
-| UAS & Cyber-Physical Security | Unarmed simulation, read-only telemetry, autonomous-system assurance, and resilience research |
+| Security Telemetry and Detection Engineering | Event modeling, validated ingestion, detection logic, correlation, and false-positive analysis |
+| Malware Intelligence and Reverse Engineering | Controlled static and dynamic analysis, behavioral understanding, and defensive indicators |
+| Threat Intelligence and Forensics | Evidence provenance, source evaluation, incident artifacts, and reproducible analysis |
+| Firmware and Embedded Security | Firmware integrity, secure update research, boot-chain assurance, and embedded attack-surface assessment |
+| FPGA and Trusted Hardware Assurance | Security properties of RTL, programmable logic, hardware interfaces, and hardware-software trust boundaries |
+| UAS and Cyber-Physical Security | Unarmed simulation, read-only telemetry, autonomous-system assurance, and resilience research |
 | AI-Assisted Security Analysis | Research into explainable assistance, validation controls, and measurable detection performance |
 
 These are **research directions**, not claims of implemented functionality.
@@ -81,7 +81,7 @@ This repository starts with the project definition. Source code, executable exam
 2. **Evidence Pipeline:** Controlled event ingestion, normalization, integrity checks, and traceable records.
 3. **Detection Research:** Deterministic rules, measurable detection quality, and reproducible forensic exercises.
 4. **Cross-Domain Assurance:** Isolated firmware, embedded, FPGA, and simulated cyber-physical research.
-5. **Integration & Review:** Interface validation, security reviews, repeatable benchmarks, and documented limitations.
+5. **Integration and Review:** Interface validation, security reviews, repeatable benchmarks, and documented limitations.
 
 Progress will be determined by verified engineering outputs, not feature counts or fixed dates.
 
