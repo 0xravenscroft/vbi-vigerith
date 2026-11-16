@@ -78,3 +78,27 @@ class EventSchemaTests(unittest.TestCase):
     def test_non_object(self):
         with self.assertRaisesRegex(ValueError, "expected object"):
             validate_event_schema([])
+
+    
+    def test_description_max_length_allowed(self):
+        self.event["event_description"] = "x" * 1024
+        self.assertIsNone(validate_event_schema(self.event))
+
+    def test_description_over_max_length_rejected(self):
+        self.event["event_description"] = "x" * 1025
+        with self.assertRaisesRegex(ValueError, "string too long"):
+            validate_event_schema(self.event)
+
+    def test_timestamp_with_timezone_allowed(self):
+        self.event["observed_at"] = "2026-11-09T12:00:00+03:00"
+        self.assertIsNone(validate_event_schema(self.event))
+
+    def test_timestamp_without_timezone_rejected(self):
+        self.event["observed_at"] = "2026-11-09T12:00:00"
+        with self.assertRaisesRegex(ValueError, "invalid date-time"):
+            validate_event_schema(self.event)
+
+    def test_whitespace_only_reference_rejected(self):
+        self.event["evidence_refs"] = ["   "]
+        with self.assertRaisesRegex(ValueError, "pattern mismatch"):
+            validate_event_schema(self.event)
