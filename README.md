@@ -25,11 +25,11 @@ The `feature/event-schema-v0.2` branch contains an early security-event validati
 | Security event schema v0.2 | Defines the current event structure and field constraints using JSON Schema Draft 2020-12 | Defined contract |
 | Schema validation module | Evaluates the subset of schema rules required by the current contract | Implemented prototype |
 | Synthetic event example | Provides a reproducible input for parsing and validation tests | Available |
-| Unit tests | Exercise accepted inputs, invalid structures, and selected boundary conditions | Available, branch CI verification pending |
+| Unit tests | Cover parser rejection paths, schema constraints, timezone handling, evidence references, and length boundaries | Present on the branch, CI verification pending |
 
-The parser applies a 16 KiB limit to the UTF-8 representation of the input string. This limit is a prototype policy, not a production capacity benchmark.
+The parser enforces a 16 KiB limit on UTF-8 input, requires a JSON object at the root, and rejects duplicate keys after JSON escape decoding. The size limit is a prototype policy, not a production capacity benchmark.
 
-The schema validator is deliberately limited. It is not a complete JSON Schema implementation, and its date-time validation is a project-specific policy rather than a claim of full RFC 3339 compliance. Schema compilation, exhaustive keyword checking, and comparison with a reference validator remain open work.
+The schema validator implements only the rules needed by the current contract. It is not a complete JSON Schema implementation. Date-time validation follows a project-specific policy and does not establish full RFC 3339 compliance. Unsupported schema keywords are checked when their rules are visited, not through a separate compilation pass. Schema-definition validation and comparison with a reference validator remain open work.
 
 No operational ingestion service, correlation engine, detection platform, or public release is available.
 
@@ -40,7 +40,7 @@ The v0.2 contract currently defines these fields:
 | Field | Meaning |
 | --- | --- |
 | `schema_version` | Identifies the expected event contract version |
-| `event_id` | Identifies an event record within the proposed data model |
+| `event_id` | Carries the proposed identifier for a single event record; uniqueness is not yet enforced |
 | `event_name` | Provides a readable event label |
 | `event_type` | Holds the declared event type |
 | `event_description` | Provides descriptive context, limited to 1024 characters |
@@ -91,7 +91,7 @@ Structural acceptance does not establish source authenticity, authorization, evi
 | `tests/test_event_schema.py` | Schema rules and boundary tests |
 | `.github/workflows/python-tests.yml` | Automated unit test workflow |
 
-The baseline validator and v0.2 schema validator are separate experiments. Their interfaces have not been consolidated into a single ingestion API.
+`src/event_json.py` parses JSON text into a Python object. `src/event_schema.py` reads the versioned schema through the same parser, then checks event objects against its supported rules. `tests/test_event_json.py` isolates parser behavior. `tests/test_event_schema.py` loads the synthetic example through the parser before exercising schema constraints. The baseline validator remains independent; these components have not been combined into an ingestion API.
 
 ## Verification
 
@@ -103,7 +103,9 @@ python3 -m json.tool schemas/security-event.v0.2.schema.json > /dev/null
 python3 -m unittest discover -s tests -v
 ```
 
-The GitHub Actions workflow runs on pushes to `main` and pull requests targeting `main`. A successful run on `main` does not verify unmerged changes in this feature branch. Release or merge readiness requires results for the relevant commit, review of failure cases, and documented limitations.
+The test suite includes accepted and rejected length boundaries, timezone-aware and timezone-free timestamps, and whitespace-only evidence references. These cases demonstrate specific behaviors, not exhaustive input coverage.
+
+GitHub Actions runs on pushes to `main` and pull requests targeting `main`. A passing run on `main` does not verify unmerged changes on this branch. Merge readiness requires CI results for the proposed commit, review of failure cases, and documented limitations.
 
 ## Engineering Principles
 
@@ -114,6 +116,10 @@ The GitHub Actions workflow runs on pushes to `main` and pull requests targeting
 - Test valid boundaries as carefully as invalid inputs.
 - Avoid features that add complexity without a defined problem or measurable benefit.
 - Record what has been verified and what remains an assumption.
+
+## Engineering Review
+
+Changes begin with a defined problem, a technical rationale, and explicit acceptance criteria. Implementations are reviewed alongside the interfaces and files they depend on. Tests must cover expected behavior, rejection paths, and relevant boundaries. A passing test is evidence for the case it exercises, not a general proof of correctness. Changes that cannot be explained or reproduced remain subject to revision.
 
 ## Research Domains
 
