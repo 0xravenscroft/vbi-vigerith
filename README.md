@@ -2,9 +2,16 @@
 
 **Cross-Domain Security Intelligence and Systems Assurance**
 
-*Ravenscroft Industries | RAVENSCROFT Engineering Program*
+**RAVENSCROFT INDUSTRIES**
+*RAVENSCROFT Engineering Program*
 
 > Evidence before conclusions. Verification before release.
+
+## Brand and Product Structure
+
+**RAVENSCROFT INDUSTRIES** is the primary identity for this engineering and research portfolio. **VanceBlackwood** is a planned product initiative under RAVENSCROFT INDUSTRIES, not a separate parent organization. **VIGERITH** is the security intelligence and systems assurance research component within this portfolio, with work that may inform the VanceBlackwood product direction.
+
+This describes an intended project structure. The repository does not claim legal incorporation, an available commercial service, or a released product.
 
 ## Mission
 
@@ -153,10 +160,10 @@ Credentials, sensitive personal data, restricted material, and unreviewed resear
 
 ## Program Context
 
-VIGERITH is developed within the Ravenscroft Industries research portfolio under the RAVENSCROFT Engineering Program. It complements SILIARCH, which focuses on trusted hardware and embedded engineering. Any future integration requires explicit interfaces, testable contracts, and clearly assigned security responsibilities.
+VIGERITH is a research component of RAVENSCROFT INDUSTRIES under the RAVENSCROFT Engineering Program. It complements SILIARCH, which focuses on trusted hardware and embedded engineering. Any future integration with other research components or the VanceBlackwood product initiative requires explicit interfaces, testable contracts, and clearly assigned security responsibilities.
 
-**Ravenscroft Industries**
+**RAVENSCROFT INDUSTRIES**
 
-*RAVENSCROFT Engineering Program | VIGERITH Research and Engineering*
+*RAVENSCROFT Engineering Program | VIGERITH Security Research*
 
 **Understand the system. Define the boundary. Verify the result.**
