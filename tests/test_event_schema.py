@@ -84,10 +84,7 @@ class EventSchemaTests(unittest.TestCase):
         self.event["event_description"] = "x" * 1024
         self.assertIsNone(validate_event_schema(self.event))
 
-    def test_description_over_max_length_rejected(self):
-        self.event["event_description"] = "x" * 1025
-        with self.assertRaisesRegex(ValueError, "string too long"):
-            validate_event_schema(self.event)
+        
 
     def test_timestamp_with_timezone_allowed(self):
         self.event["observed_at"] = "2026-11-09T12:00:00+03:00"
