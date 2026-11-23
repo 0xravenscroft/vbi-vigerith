@@ -4,6 +4,8 @@ from datetime import datetime
 from pathlib import Path
 
 from src.event_json import parse_event_json
+from src.schema_contract import SUPPORTED, validate_schema_contract
+
 
 SCHEMA_PATH = (
     Path(__file__).resolve().parents[1]
@@ -102,8 +104,12 @@ def _check(value: object, rule: dict, path: str) -> None:
                     raise ValueError(f"{path}: duplicate array item")
 
 
+
 def validate_event_schema(event: object) -> None:
     schema = parse_event_json(
         SCHEMA_PATH.read_text(encoding="utf-8")
     )
+
+    validate_schema_contract(schema)
     _check(event, schema, "$")
+
