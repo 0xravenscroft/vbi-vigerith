@@ -13,12 +13,7 @@ SCHEMA_PATH = (
     / "security-event.v0.2.schema.json"
 )
 
-SUPPORTED = {
-    "$schema", "title", "description", "type", "required",
-    "properties", "additionalProperties", "const", "enum",
-    "minLength", "maxLength", "pattern", "format",
-    "items", "uniqueItems",
-}
+
 
 DATE_TIME = re.compile(
     r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})\Z"
