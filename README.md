@@ -1,98 +1,96 @@
 # VIGERITH
 
-**Cross-Domain Security Intelligence & Systems Assurance**  
-*VanceBlackwood Industries*  
-*RAVENSCROFT Engineering Program*
+**Cross-Domain Security Intelligence and Systems Assurance**
 
-> Security conclusions should be traceable to evidence, not assumptions.
+**RAVENSCROFT INDUSTRIES**
 
-## Mission
+VIGERITH is a security engineering research project focused on trustworthy telemetry, reproducible analysis and the assurance of software, firmware, embedded hardware and cyber-physical systems.
 
-VIGERITH is a long-term engineering research initiative focused on the security assurance of interconnected software, firmware, embedded hardware, and cyber-physical systems.
+The objective is to turn individual observations into defensible findings without losing their identity, context or evidence. Structural validity is not proof of authenticity. Correlation is not causation.
 
-Its objective is to turn fragmented security observations into **structured, reproducible, and defensible technical findings**. The platform is intended to connect collection, validation, detection, analysis, and reporting without confusing an alert with proof or a hypothesis with a confirmed result.
+RAVENSCROFT INDUSTRIES is the research identity. VanceBlackwood is a planned product initiative. VIGERITH complements SILIARCH in the broader engineering portfolio. These names describe intended project relationships, not legal incorporation or commercial availability.
 
-VIGERITH is being developed as an engineering system, not a collection of disconnected tools. Every capability must have a defined purpose, explicit boundaries, testable behavior, and evidence supporting its claims.
+## Branch Status
 
-## Research Domains
+This branch preserves the initial event validator milestone from the merged [pull request #2](https://github.com/juliangreyravenscroft/vbi-vigerith/pull/2).
 
-| Domain | Research direction |
+| Component | State |
 | --- | --- |
-| Security Telemetry & Detection Engineering | Event modeling, validated ingestion, detection logic, correlation, and false-positive analysis |
-| Malware Intelligence & Reverse Engineering | Controlled static and dynamic analysis, behavioral understanding, and defensive indicators |
-| Threat Intelligence & Forensics | Evidence provenance, source evaluation, incident artifacts, and reproducible analysis |
-| Firmware & Embedded Security | Firmware integrity, secure update research, boot-chain assurance, and embedded attack-surface assessment |
-| FPGA & Trusted Hardware Assurance | Security properties of RTL, programmable logic, hardware interfaces, and hardware-software trust boundaries |
-| UAS & Cyber-Physical Security | Unarmed simulation, read-only telemetry, autonomous-system assurance, and resilience research |
-| AI-Assisted Security Analysis | Research into explainable assistance, validation controls, and measurable detection performance |
+| Basic event validator | Implemented |
+| Baseline unit tests | 7 test methods |
+| GitHub Actions | Configured |
+| Versioned schema and strict JSON parser | Development branch only |
+| Contract preflight and integrated ingestion | Development branch only |
 
-These are **research directions**, not claims of implemented functionality.
+The original baseline CI result is available in [GitHub Actions](https://github.com/juliangreyravenscroft/vbi-vigerith/actions/runs/42461015045). This does not establish CI success for the unmerged v0.2 work.
 
-## Target System Architecture
+Current development is documented on [feature/event-schema-v0.2](https://github.com/juliangreyravenscroft/vbi-vigerith/tree/feature/event-schema-v0.2). Follow that branch for the strict parser, schema preflight and integrated event ingestion.
 
-The initial architectural direction is evidence-driven and modular:
+## Baseline Interface
 
-```text
-Authorized Systems / Isolated Simulations
-                  |
-          Evidence Collection
-                  |
-      Parsing & Schema Validation
-                  |
-       Integrity & Provenance
-                  |
-      Detection & Correlation
-                  |
-     Human Review & Verification
-                  |
-      Reproducible Findings
+`src/validate_event.py` exposes `validate_event(event)`. It returns a boolean. It requires an object with nonblank string values for `event_id`, `source` and `severity`. Severity must be `low`, `medium` or `high`. It does not reject all additional fields or establish source identity, event uniqueness or factual accuracy.
+
+```python
+from src.validate_event import validate_event
+
+event = {
+    "event_id": "evt-0001",
+    "source": "lab-host-01",
+    "severity": "low",
+}
+
+assert validate_event(event)
 ```
 
-This diagram describes a proposed design. Interfaces, data models, trust boundaries, and failure conditions will be documented and tested before integration.
+## Repository Guide
 
-## Engineering Standard
-
-VIGERITH follows a small set of non-negotiable principles:
-
-- **Evidence before conclusions.** Separate observations, hypotheses, and verified findings.
-- **Understand before implementing.** Derive solutions from first principles and explicit requirements.
-- **Verify before trusting.** Test normal behavior, invalid input, edge cases, and failure paths.
-- **Security by design.** Prefer least privilege, controlled dependencies, and read-only collection.
-- **Reproducibility by default.** Preserve test inputs, expected behavior, and reviewable results.
-- **Modularity with purpose.** Introduce new components only when their responsibilities are clear.
-- **Honest maturity reporting.** Distinguish planned research, prototypes, laboratory validation, and released capabilities.
-
-## Current Status
-
-| Item | Status |
+| Path | Responsibility |
 | --- | --- |
-| Project maturity | **Proposed: Engineering Foundation** |
-| Operational platform | Not implemented |
-| Architecture | Initial direction defined and subject to validation |
-| First planned deliverable | Security-event schema validation using synthetic data |
-| Testing | Planned. No test results claimed |
-| Public releases | None |
+| `src/__init__.py` | Python package initialization |
+| `src/validate_event.py` | Baseline structural checks |
+| `tests/test_validate_event.py` | Independent baseline tests |
+| `.github/workflows/python-tests.yml` | Automated tests on the configured GitHub Actions events |
+| `README.md` | Project status and research scope |
 
-This repository starts with the project definition. Source code, executable examples, installation instructions, and verification records will be added as they are developed and tested.
+## Verification
 
-## Development Roadmap
+Run from the repository root with Python 3.13 or a compatible interpreter.
 
-1. **Foundation:** Repository discipline, data representation, validation, unit testing, and engineering documentation.
-2. **Evidence Pipeline:** Controlled event ingestion, normalization, integrity checks, and traceable records.
-3. **Detection Research:** Deterministic rules, measurable detection quality, and reproducible forensic exercises.
-4. **Cross-Domain Assurance:** Isolated firmware, embedded, FPGA, and simulated cyber-physical research.
-5. **Integration & Review:** Interface validation, security reviews, repeatable benchmarks, and documented limitations.
+```bash
+python3 -m unittest discover -s tests -v
+```
 
-Progress will be determined by verified engineering outputs, not feature counts or fixed dates.
+The baseline contains seven test methods. CI runs on pushes to `main` and pull requests targeting `main`. Test counts are not guarantees of complete coverage.
+
+## Research Direction
+
+| Domain | Focus |
+| --- | --- |
+| Security telemetry and detection | Event contracts, ingestion, correlation and detection evaluation |
+| Threat intelligence and forensics | Source evaluation, evidence provenance and reproducible findings |
+| Malware intelligence and reverse engineering | Contained analysis and defensive indicators |
+| Firmware and embedded security | Boot integrity, secure updates and hardware interfaces |
+| FPGA and trusted hardware assurance | RTL security properties and hardware-software trust boundaries |
+| Cyber-physical and UAS assurance | Unarmed simulation, read-only telemetry and resilience |
+| AI-assisted analysis | Explainable assistance and measurable analytical quality |
+
+These are research directions, not deployed capabilities.
 
 ## Research Boundaries
 
-All testing is limited to owned, explicitly authorized, or isolated laboratory environments. Malware research must remain contained. UAS and defense-related work begins with unarmed simulation, read-only telemetry, and assurance testing. Live control and weapon-related capabilities are outside the present scope.
+Use only owned, explicitly authorized or isolated laboratory environments. Keep malware analysis contained. Cyber-physical work is limited to unarmed simulation, read-only telemetry and assurance research. Live control and weapon-related capabilities are outside the current scope. Do not commit credentials, sensitive records, restricted materials or unreviewed research artifacts.
 
-Sensitive data, credentials, restricted materials, and unreviewed research artifacts must never be committed to this repository.
+## Engineering Practice
 
-## Program Context
+Define the problem, interfaces, assumptions and acceptance criteria before implementation. Trace dependencies and affected files. Verify accepted inputs, rejection paths and regression behavior. Preserve reproducible evidence and document limitations before review. Keep implementation, verification and documentation aligned.
 
-VIGERITH is developed within **VanceBlackwood Industries** under the broader **RAVENSCROFT Engineering Program**. It complements **SILIARCH**, which focuses on trusted hardware and embedded engineering. VIGERITH may assess security properties of those components through explicitly defined, testable interfaces.
+## Development Priorities
 
-**Understand before implementing. Verify before trusting. Document before releasing.**
+1. Complete contract and ingestion boundary tests and verify the development branch in CI.
+2. Compare the supported schema subset with a reference Draft 2020-12 validator and document intentional differences.
+3. Measure schema loading and validation costs before optimizing.
+4. Establish event identity, source provenance and duplicate-delivery semantics.
+5. Research correlation and detection with independently traceable records, controlled datasets and measured error rates.
+6. Expand validated interfaces to isolated cross-domain assurance research.
+
+No operational ingestion service, storage engine, correlation engine or public product release is claimed.
