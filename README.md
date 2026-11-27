@@ -22,9 +22,11 @@ The default branch contains the initial event validation prototype. It does not 
 | Versioned schema and strict JSON parser | Development branch only |
 | Contract preflight and integrated ingestion | Development branch only |
 
-The latest inspected baseline CI run completed seven tests successfully on Python 3.13. [Verification record](https://github.com/juliangreyravenscroft/vbi-vigerith/actions/runs/45441139999). This does not establish CI success for the unmerged v0.2 work.
+The [November 25 baseline CI run](https://github.com/0xravenscroft/vbi-vigerith/actions/runs/45661956680) completed seven tests successfully on Python 3.13 at commit `d5f4f227d10e`. This result does not verify the unmerged v0.2 work.
 
-Current development is documented on [feature/event-schema-v0.2](https://github.com/juliangreyravenscroft/vbi-vigerith/tree/feature/event-schema-v0.2). Follow that branch for the strict parser, schema preflight and integrated event ingestion.
+Current development is documented on [feature/event-schema-v0.2](https://github.com/0xravenscroft/vbi-vigerith/tree/feature/event-schema-v0.2). The branch contains a strict JSON parser, a versioned event contract, schema preflight, structural event validation and a unified ingestion interface. Its source contains 49 test methods. Development CI is pending.
+
+The [initial validator branch](https://github.com/0xravenscroft/vbi-vigerith/tree/feature/event-validator) preserves the original implementation. The [editorial review branch](https://github.com/0xravenscroft/vbi-vigerith/tree/docs/vigerith-editorial-review-2026-11) retains an older code snapshot for documentation review. Neither is the active development branch.
 
 ## Baseline Interface
 
