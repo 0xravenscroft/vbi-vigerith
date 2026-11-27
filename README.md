@@ -12,7 +12,7 @@ RAVENSCROFT INDUSTRIES is the research identity. VanceBlackwood is a planned pro
 
 ## Branch Status
 
-This branch preserves the initial event validator milestone from the merged [pull request #2](https://github.com/juliangreyravenscroft/vbi-vigerith/pull/2).
+This historical branch preserves the initial event validator milestone from the merged [pull request #2](https://github.com/0xravenscroft/vbi-vigerith/pull/2).
 
 | Component | State |
 | --- | --- |
@@ -22,9 +22,9 @@ This branch preserves the initial event validator milestone from the merged [pul
 | Versioned schema and strict JSON parser | Development branch only |
 | Contract preflight and integrated ingestion | Development branch only |
 
-The original baseline CI result is available in [GitHub Actions](https://github.com/juliangreyravenscroft/vbi-vigerith/actions/runs/42461015045). This does not establish CI success for the unmerged v0.2 work.
+The original baseline CI result is available in [GitHub Actions](https://github.com/0xravenscroft/vbi-vigerith/actions/runs/42461015045). This does not establish CI success for the unmerged v0.2 work.
 
-Current development is documented on [feature/event-schema-v0.2](https://github.com/juliangreyravenscroft/vbi-vigerith/tree/feature/event-schema-v0.2). Follow that branch for the strict parser, schema preflight and integrated event ingestion.
+Current development is documented on [feature/event-schema-v0.2](https://github.com/0xravenscroft/vbi-vigerith/tree/feature/event-schema-v0.2). Follow that branch for the strict parser, schema preflight and integrated event ingestion. The active development branch contains 49 test methods by source inspection. No development CI result has been established. This historical branch is not the target for new implementation work.
 
 ## Baseline Interface
 
