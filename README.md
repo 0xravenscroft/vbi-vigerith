@@ -12,7 +12,7 @@ RAVENSCROFT INDUSTRIES is the research identity. VanceBlackwood is a planned pro
 
 ## Implementation Status
 
-This document describes [feature/event-schema-v0.2](https://github.com/juliangreyravenscroft/vbi-vigerith/tree/feature/event-schema-v0.2), the active development branch. Check out that branch to reproduce the examples below. The default branch remains at the initial validator milestone until the development work is reviewed and merged.
+This document describes [feature/event-schema-v0.2](https://github.com/0xravenscroft/vbi-vigerith/tree/feature/event-schema-v0.2), the active development branch. Check out that branch to reproduce the examples below. The default branch remains at the initial validator milestone until the development work is reviewed and merged.
 
 | Component | Responsibility | State |
 | --- | --- | --- |
@@ -24,7 +24,7 @@ This document describes [feature/event-schema-v0.2](https://github.com/juliangre
 | Event ingestion | Connect parsing and structural validation through one function | Implemented |
 | Verification | Unit and integration tests | 49 test methods present, development CI pending |
 
-The latest inspected implementation commit before this documentation update is [70128f754028](https://github.com/juliangreyravenscroft/vbi-vigerith/commit/70128f7540288c5921592b9f74b2e45e5c8edf2a). Test inventory is based on source inspection, not a passing execution result.
+The implementation inventory was checked at [49460300263d](https://github.com/0xravenscroft/vbi-vigerith/commit/49460300263d42d0fc75186c3c5ef954835e478d). Test counts reflect methods in the source, not a passing execution result.
 
 ## Architecture and Dependencies
 
@@ -68,6 +68,18 @@ The JSON schema is a runtime dependency. The synthetic example is a test fixture
 | `tests/test_event_schema.py` | Event field and boundary tests |
 | `tests/test_event_ingestion.py` | Pipeline behavior and failure ordering |
 | `.github/workflows/python-tests.yml` | Automated Python test workflow |
+
+## Interface Boundaries
+
+| Interface | Input | Success | Failure |
+| --- | --- | --- | --- |
+| `validate_event(event)` | Python object | Boolean | Returns false for rejected baseline input |
+| `parse_event_json(raw)` | JSON text | Dictionary | TypeError or parsing and policy exceptions |
+| `validate_schema_contract(schema)` | Parsed schema | None | Invalid or unsupported rule exception |
+| `validate_event_schema(event)` | Parsed event | None | Schema loading, contract or event validation exception |
+| `ingest_event(raw)` | JSON text | Structurally validated dictionary | Propagates exceptions without returning an accepted event |
+
+The ingestion interface is the intended entry point for raw event text. Direct use of the event validator does not enforce the parser input policy on that event. Schema errors and invalid event data are not yet represented by separate application exception classes.
 
 ## Security Event Contract
 
@@ -117,15 +129,15 @@ python3 -m unittest discover -s tests -v
 | Event ingestion | 5 |
 | Total | 49 |
 
-The ingestion tests exercise valid event return, malformed JSON, duplicate keys, invalid severity and an invalid nested schema rule. Parser failures are checked to ensure they stop before event validation. Additional contract and ingestion failure cases remain outstanding.
+The ingestion tests exercise valid event return, malformed JSON, duplicate keys, invalid severity and an invalid nested schema rule. Parser failures are checked to ensure they stop before event validation. Outstanding contract tests cover contradictory length limits, a nonboolean uniqueItems rule and additionalProperties set to true. Outstanding ingestion tests cover a nonobject root, a missing schema file and a missing required event field. These six cases are planned additions, not part of the current test inventory.
 
-GitHub Actions uses Python 3.13 and runs on pushes to `main` and pull requests targeting `main`. Passing checks on the default branch do not verify this development branch. Merge readiness requires a passing run for the proposed changes and review of the remaining limitations.
+GitHub Actions uses Python 3.13 and runs on pushes to `main` and pull requests targeting `main`. The [latest inspected baseline CI run](https://github.com/0xravenscroft/vbi-vigerith/actions/runs/45661956680) completed seven tests on main. It does not verify this development branch. Merge readiness requires a passing run for the proposed changes and review of the remaining limitations.
 
 ## Known Limitations
 
 The validator implements a restricted JSON Schema Draft 2020-12 subset. Schema preflight checks supported keywords and selected rule definitions, not every possible semantic inconsistency. Date-time handling is a project policy, not full RFC 3339 conformance. Python regular expression and equality semantics have not been comprehensively compared with the specification.
 
-The parser rejects explicit nonstandard numeric constants but has not been validated against every numerical overflow, nesting or resource consumption case. The schema is read, parsed and checked for each event. No production throughput or latency claims are supported.
+The parser rejects explicit nonstandard numeric constants but has not been validated against every numerical overflow, nesting or resource consumption case. The schema is read, parsed and checked for each event. The preflight checks rule definitions but does not authenticate the schema file or guarantee that every security constraint remains present. The byte limit is applied after the input has already been received as a Python string. No production throughput or latency claims are supported.
 
 Structural validation does not authenticate the source, guarantee unique event identifiers, verify evidence references, establish event occurrence or prove the declared severity. No persistence, deduplication, event classification taxonomy or correlation engine is implemented.
 
